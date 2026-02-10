@@ -2,6 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import Button from "../Button/Button";
 import styled from "styled-components";
+import { validationSchema } from "./validacionesYup";
 
 const convertirADecimal = (valor) => {
   if (!valor) return 0;
@@ -66,9 +67,15 @@ const Input = styled.input`
   }
 `;
 
+const MensajeError = styled.p`
+  color: red;
+  margin: 0;
+`;
+
 export default function Calculadora() {
   const formik = useFormik({
     initialValues: valoresIniciales,
+    validationSchema: validationSchema,
     onSubmit: async (formulario) => {
       try {
         const datosConvertidos = {
@@ -97,6 +104,9 @@ export default function Calculadora() {
             type="text"
             {...formik.getFieldProps("depositoInicial")}
           ></Input>
+          {formik.touched.depositoInicial && formik.errors.depositoInicial && (
+            <MensajeError>{formik.errors.depositoInicial}</MensajeError>
+          )}
         </Campo>
 
         {/* Contribucion anual */}
@@ -108,6 +118,10 @@ export default function Calculadora() {
             type="text"
             {...formik.getFieldProps("contribucionAnual")}
           ></Input>
+          {formik.touched.contribucionAnual &&
+            formik.errors.contribucionAnual && (
+              <MensajeError>{formik.errors.contribucionAnual}</MensajeError>
+            )}
         </Campo>
 
         {/* Anios */}
@@ -119,6 +133,9 @@ export default function Calculadora() {
             type="text"
             {...formik.getFieldProps("anios")}
           ></Input>
+          {formik.touched.anios && formik.errors.anios && (
+            <MensajeError>{formik.errors.anios}</MensajeError>
+          )}
         </Campo>
 
         {/* Interes estimado */}
@@ -130,6 +147,10 @@ export default function Calculadora() {
             type="text"
             {...formik.getFieldProps("interesEstimado")}
           ></Input>
+          {formik.touched.interesEstimado &&
+            formik.errors.interesEstimado && (
+              <MensajeError>{formik.errors.interesEstimado}</MensajeError>
+            )}
         </Campo>
       </ContenedorCampos>
       <Button type="submit">Enviar</Button>

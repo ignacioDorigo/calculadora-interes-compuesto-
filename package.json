@@ -12,6 +12,7 @@
     "react-dom": "^19.2.4",
     "react-scripts": "5.0.1",
     "styled-components": "^6.3.9",
+    "sweetalert2": "^11.26.18",
     "web-vitals": "^2.1.4",
     "yup": "^1.7.1"
   },

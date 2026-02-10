@@ -120,7 +120,7 @@ export default function Calculadora() {
           <Input
             id="depositoInicial"
             placeholder="Deposito Inicial"
-            type="number"
+            type="text"
             {...formik.getFieldProps("depositoInicial")}
             autoComplete="off"
           ></Input>
@@ -134,7 +134,7 @@ export default function Calculadora() {
           <Label htmlFor="contribucionAnual">Contribución Anual:</Label>
           <Input
             id="contribucionAnual"
-            type="number"
+            type="text"
             placeholder="Contribución Anual"
             {...formik.getFieldProps("contribucionAnual")}
             autoComplete="off"
@@ -151,7 +151,7 @@ export default function Calculadora() {
           <Input
             id="anios"
             placeholder="Años"
-            type="number"
+            type="text"
             {...formik.getFieldProps("anios")}
             autoComplete="off"
           ></Input>
@@ -166,7 +166,7 @@ export default function Calculadora() {
           <Input
             id="interesEstimado"
             placeholder="Interés Estimado"
-            type="number"
+            type="text"
             {...formik.getFieldProps("interesEstimado")}
             autoComplete="off"
           ></Input>

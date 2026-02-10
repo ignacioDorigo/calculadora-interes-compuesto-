@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import Button from "../Button/Button";
 import styled from "styled-components";
@@ -21,6 +21,10 @@ const valoresIniciales = {
   anios: "",
   interesEstimado: "",
 };
+
+const Resultado = styled.h3`
+  font-size: 2rem;
+`;
 
 const Formulario = styled.form`
   display: flex;
@@ -82,10 +86,11 @@ const calcularInteres = (formulario) => {
     let interesGanado = resultado * (interesEstimado / 100);
     resultado = resultado + interesGanado;
   }
-  console.log(resultado);
+  return resultado;
 };
 
 export default function Calculadora() {
+  const [interesFinal, setInteresFinal] = useState(0);
   const formik = useFormik({
     initialValues: valoresIniciales,
     validationSchema: validationSchema,
@@ -99,7 +104,7 @@ export default function Calculadora() {
         };
 
         console.log(datosConvertidos);
-        calcularInteres(datosConvertidos);
+        setInteresFinal(calcularInteres(datosConvertidos));
       } catch (error) {
         console.log(error);
       }
@@ -117,6 +122,7 @@ export default function Calculadora() {
             placeholder="Deposito Inicial"
             type="text"
             {...formik.getFieldProps("depositoInicial")}
+            autoComplete="off"
           ></Input>
           {formik.touched.depositoInicial && formik.errors.depositoInicial && (
             <MensajeError>{formik.errors.depositoInicial}</MensajeError>
@@ -131,6 +137,7 @@ export default function Calculadora() {
             placeholder="Contribución Anual"
             type="text"
             {...formik.getFieldProps("contribucionAnual")}
+            autoComplete="off"
           ></Input>
           {formik.touched.contribucionAnual &&
             formik.errors.contribucionAnual && (
@@ -146,6 +153,7 @@ export default function Calculadora() {
             placeholder="Años"
             type="text"
             {...formik.getFieldProps("anios")}
+            autoComplete="off"
           ></Input>
           {formik.touched.anios && formik.errors.anios && (
             <MensajeError>{formik.errors.anios}</MensajeError>
@@ -160,6 +168,7 @@ export default function Calculadora() {
             placeholder="Interés Estimado"
             type="text"
             {...formik.getFieldProps("interesEstimado")}
+            autoComplete="off"
           ></Input>
           {formik.touched.interesEstimado && formik.errors.interesEstimado && (
             <MensajeError>{formik.errors.interesEstimado}</MensajeError>
@@ -167,6 +176,10 @@ export default function Calculadora() {
         </Campo>
       </ContenedorCampos>
       <Button type="submit">Enviar</Button>
+
+      {interesFinal !== 0 ? (
+        <Resultado>Su capital + interes será de ${interesFinal}</Resultado>
+      ) : null}
     </Formulario>
   );
 }

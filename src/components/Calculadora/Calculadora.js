@@ -86,7 +86,7 @@ const calcularInteres = (formulario) => {
     let interesGanado = resultado * (interesEstimado / 100);
     resultado = resultado + interesGanado;
   }
-  return resultado;
+  return Number(resultado.toFixed(2));
 };
 
 export default function Calculadora() {

@@ -72,6 +72,19 @@ const MensajeError = styled.p`
   margin: 0;
 `;
 
+const calcularInteres = (formulario) => {
+  const { depositoInicial, contribucionAnual, anios, interesEstimado } =
+    formulario;
+
+  let resultado = depositoInicial;
+  for (let i = 0; i < anios; i++) {
+    resultado = resultado + contribucionAnual;
+    let interesGanado = resultado * (interesEstimado / 100);
+    resultado = resultado + interesGanado;
+  }
+  console.log(resultado);
+};
+
 export default function Calculadora() {
   const formik = useFormik({
     initialValues: valoresIniciales,
@@ -86,6 +99,7 @@ export default function Calculadora() {
         };
 
         console.log(datosConvertidos);
+        calcularInteres(datosConvertidos);
       } catch (error) {
         console.log(error);
       }
@@ -147,10 +161,9 @@ export default function Calculadora() {
             type="text"
             {...formik.getFieldProps("interesEstimado")}
           ></Input>
-          {formik.touched.interesEstimado &&
-            formik.errors.interesEstimado && (
-              <MensajeError>{formik.errors.interesEstimado}</MensajeError>
-            )}
+          {formik.touched.interesEstimado && formik.errors.interesEstimado && (
+            <MensajeError>{formik.errors.interesEstimado}</MensajeError>
+          )}
         </Campo>
       </ContenedorCampos>
       <Button type="submit">Enviar</Button>

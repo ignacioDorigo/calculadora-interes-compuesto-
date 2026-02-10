@@ -1,7 +1,7 @@
 import React from "react";
-import Calculadora from "./components/Calculadora/Calculadora";
 import styled from "styled-components";
 import "./normalize.css";
+import Calculadora from "./components/Calculadora/Calculadora";
 
 const Titulo = styled.h1`
   text-align: center;

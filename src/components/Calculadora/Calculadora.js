@@ -1,19 +1,40 @@
-import { useFormik } from "formik";
 import React from "react";
-import Boton from "../Boton/Boton";
+import { useFormik } from "formik";
+import Button from "../Button/Button";
 import styled from "styled-components";
-import Campo from "../Campo/Campo";
+
+const convertirADecimal = (valor) => {
+  if (!valor) return 0;
+
+  return parseFloat(
+    valor
+      .replace(/\./g, "") // quita separador de miles
+      .replace(",", ".") // coma → punto
+      .replace(/[^0-9.]/g, ""), // quita $, espacios, etc
+  );
+};
+
+const valoresIniciales = {
+  depositoInicial: "",
+  contribucionAnual: "",
+  anios: "",
+  interesEstimado: "",
+};
 
 const Formulario = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   background-color: #ececec;
   padding: 2rem;
-  border-top-width: 2px;
-  border-top-color: #d87092;
-  border-top-style: solid;
-  border-radius:5px;
-  width:90%;
-  @media(width>768px){
-    width:40%;
+  border-radius: 5px;
+  border-top: 2px solid #d87092;
+  width: 90%;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
+
+  @media (width>=768px) {
+    width: 30%;
+    padding: 3rem;
   }
 `;
 
@@ -23,33 +44,95 @@ const ContenedorCampos = styled.div`
   gap: 2rem;
 `;
 
-const valoresIniciales = {
-  depositoInicial: 0.0,
-  contribucionAnual: 0.0,
-  anios: 0,
-  interesEstimado: 0.0,
-};
+const Campo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 1.7rem;
+`;
+
+const Label = styled.label`
+  font-weight: 500;
+`;
+
+const Input = styled.input`
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid #e1e1e1;
+
+  &:focus {
+    border: 2px solid #d87092;
+    outline: none;
+  }
+`;
 
 export default function Calculadora() {
   const formik = useFormik({
     initialValues: valoresIniciales,
     onSubmit: async (formulario) => {
       try {
-        console.log(formulario);
+        const datosConvertidos = {
+          depositoInicial: convertirADecimal(formulario.depositoInicial),
+          contribucionAnual: convertirADecimal(formulario.contribucionAnual),
+          anios: Number(formulario.anios),
+          interesEstimado: convertirADecimal(formulario.interesEstimado),
+        };
+
+        console.log(datosConvertidos);
       } catch (error) {
         console.log(error);
       }
     },
   });
+
   return (
     <Formulario onSubmit={formik.handleSubmit}>
       <ContenedorCampos>
-        <Campo label={"Deposito Inicial"}></Campo>
-        <Campo label={"Contribución Anual"}></Campo>
-        <Campo label={"Años"}></Campo>
-        <Campo label={"Interés Estimado"}></Campo>
+        {/* dEPO INICIAL */}
+        <Campo>
+          <Label htmlFor="depositoInicial">Deposito Inicial:</Label>
+          <Input
+            id="depositoInicial"
+            placeholder="Deposito Inicial"
+            type="text"
+            {...formik.getFieldProps("depositoInicial")}
+          ></Input>
+        </Campo>
+
+        {/* Contribucion anual */}
+        <Campo>
+          <Label htmlFor="contribucionAnual">Contribución Anual:</Label>
+          <Input
+            id="contribucionAnual"
+            placeholder="Contribución Anual"
+            type="text"
+            {...formik.getFieldProps("contribucionAnual")}
+          ></Input>
+        </Campo>
+
+        {/* Anios */}
+        <Campo>
+          <Label htmlFor="anios">Años:</Label>
+          <Input
+            id="anios"
+            placeholder="Años"
+            type="text"
+            {...formik.getFieldProps("anios")}
+          ></Input>
+        </Campo>
+
+        {/* Interes estimado */}
+        <Campo>
+          <Label htmlFor="interesEstimado">Interés Estimado:</Label>
+          <Input
+            id="interesEstimado"
+            placeholder="Interés Estimado"
+            type="text"
+            {...formik.getFieldProps("interesEstimado")}
+          ></Input>
+        </Campo>
       </ContenedorCampos>
-      <Boton type="submit">Enviar</Boton>
+      <Button type="submit">Enviar</Button>
     </Formulario>
   );
 }

@@ -27,7 +27,7 @@ Aplicación web en React para simular el crecimiento de un capital a través del
 1. Clonar el repositorio:
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
+git clone https://github.com/ignacioDorigo/calculadora-interes-compuesto-.git
 cd calculadora-interes-compuesto
 ```
 

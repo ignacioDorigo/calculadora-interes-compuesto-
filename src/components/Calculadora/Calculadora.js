@@ -4,23 +4,9 @@ import Button from "../Button/Button";
 import styled from "styled-components";
 import { validationSchema } from "./validacionesYup";
 
-const convertirADecimal = (valor) => {
-  if (!valor) return 0;
-
-  return parseFloat(
-    valor
-      .replace(/\./g, "") // quita separador de miles
-      .replace(",", ".") // coma → punto
-      .replace(/[^0-9.]/g, ""), // quita $, espacios, etc
-  );
-};
-
-const valoresIniciales = {
-  depositoInicial: "",
-  contribucionAnual: "",
-  anios: "",
-  interesEstimado: "",
-};
+/* ======================
+   Styled Components
+====================== */
 
 const Resultado = styled.h3`
   font-size: 2rem;
@@ -37,7 +23,7 @@ const Formulario = styled.form`
   width: 90%;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
 
-  @media (width>=768px) {
+  @media (width >= 768px) {
     width: 30%;
     padding: 3rem;
   }
@@ -76,110 +62,138 @@ const MensajeError = styled.p`
   margin: 0;
 `;
 
-const calcularInteres = (formulario) => {
-  const { depositoInicial, contribucionAnual, anios, interesEstimado } =
-    formulario;
+/* ======================
+   Lógica
+====================== */
 
+const valoresIniciales = {
+  depositoInicial: "",
+  contribucionAnual: "",
+  anios: "",
+  interesEstimado: "",
+};
+
+const calcularInteres = ({
+  depositoInicial,
+  contribucionAnual,
+  anios,
+  interesEstimado,
+}) => {
   let resultado = depositoInicial;
+
   for (let i = 0; i < anios; i++) {
-    resultado = resultado + contribucionAnual;
-    let interesGanado = resultado * (interesEstimado / 100);
-    resultado = resultado + interesGanado;
+    resultado += contribucionAnual;
+    resultado += resultado * (interesEstimado / 100);
   }
+
   return Number(resultado.toFixed(2));
 };
 
+/* ======================
+   Componente
+====================== */
+
 export default function Calculadora() {
-  const [interesFinal, setInteresFinal] = useState(0);
+  const [interesFinal, setInteresFinal] = useState(null);
+
   const formik = useFormik({
     initialValues: valoresIniciales,
-    validationSchema: validationSchema,
-    onSubmit: async (formulario) => {
-      try {
-        const datosConvertidos = {
-          depositoInicial: convertirADecimal(formulario.depositoInicial),
-          contribucionAnual: convertirADecimal(formulario.contribucionAnual),
-          anios: Number(formulario.anios),
-          interesEstimado: convertirADecimal(formulario.interesEstimado),
-        };
+    validationSchema,
+    onSubmit: (formulario) => {
+      const datosConvertidos = {
+        depositoInicial: Number(formulario.depositoInicial),
+        contribucionAnual: Number(formulario.contribucionAnual),
+        anios: Number(formulario.anios),
+        interesEstimado: Number(formulario.interesEstimado),
+      };
 
-        console.log(datosConvertidos);
-        setInteresFinal(calcularInteres(datosConvertidos));
-      } catch (error) {
-        console.log(error);
-      }
+      setInteresFinal(calcularInteres(datosConvertidos));
     },
   });
 
   return (
     <Formulario onSubmit={formik.handleSubmit}>
       <ContenedorCampos>
-        {/* dEPO INICIAL */}
+        {/* Depósito inicial */}
         <Campo>
-          <Label htmlFor="depositoInicial">Deposito Inicial:</Label>
+          <Label htmlFor="depositoInicial">Depósito Inicial</Label>
           <Input
             id="depositoInicial"
-            placeholder="Deposito Inicial"
-            type="text"
+            type="number"
+            min="0"
+            step="0.01"
             {...formik.getFieldProps("depositoInicial")}
-            autoComplete="off"
-          ></Input>
-          {formik.touched.depositoInicial && formik.errors.depositoInicial && (
-            <MensajeError>{formik.errors.depositoInicial}</MensajeError>
-          )}
+          />
+          {formik.touched.depositoInicial &&
+            formik.errors.depositoInicial && (
+              <MensajeError>{formik.errors.depositoInicial}</MensajeError>
+            )}
         </Campo>
 
-        {/* Contribucion anual */}
+        {/* Contribución anual */}
         <Campo>
-          <Label htmlFor="contribucionAnual">Contribución Anual:</Label>
+          <Label htmlFor="contribucionAnual">Contribución Anual</Label>
           <Input
             id="contribucionAnual"
-            type="text"
-            placeholder="Contribución Anual"
+            type="number"
+            min="0"
+            step="0.01"
             {...formik.getFieldProps("contribucionAnual")}
-            autoComplete="off"
-          ></Input>
+          />
           {formik.touched.contribucionAnual &&
             formik.errors.contribucionAnual && (
               <MensajeError>{formik.errors.contribucionAnual}</MensajeError>
             )}
         </Campo>
 
-        {/* Anios */}
+        {/* Años */}
         <Campo>
-          <Label htmlFor="anios">Años:</Label>
+          <Label htmlFor="anios">Años</Label>
           <Input
             id="anios"
-            placeholder="Años"
-            type="text"
+            type="number"
+            min="1"
+            step="1"
             {...formik.getFieldProps("anios")}
-            autoComplete="off"
-          ></Input>
+          />
           {formik.touched.anios && formik.errors.anios && (
             <MensajeError>{formik.errors.anios}</MensajeError>
           )}
         </Campo>
 
-        {/* Interes estimado */}
+        {/* Interés */}
         <Campo>
-          <Label htmlFor="interesEstimado">Interés Estimado (0% al 100%):</Label>
+          <Label htmlFor="interesEstimado">
+            Interés Estimado (%)
+          </Label>
           <Input
             id="interesEstimado"
-            placeholder="Interés Estimado"
-            type="text"
+            type="number"
+            min="0"
+            max="100"
+            step="0.01"
             {...formik.getFieldProps("interesEstimado")}
-            autoComplete="off"
-          ></Input>
-          {formik.touched.interesEstimado && formik.errors.interesEstimado && (
-            <MensajeError>{formik.errors.interesEstimado}</MensajeError>
-          )}
+          />
+          {formik.touched.interesEstimado &&
+            formik.errors.interesEstimado && (
+              <MensajeError>{formik.errors.interesEstimado}</MensajeError>
+            )}
         </Campo>
       </ContenedorCampos>
-      <Button type="submit">Enviar</Button>
 
-      {interesFinal !== 0 ? (
-        <Resultado>Su capital + interes será de ${interesFinal}</Resultado>
-      ) : null}
+      <Button type="submit">Calcular</Button>
+
+      {interesFinal !== null && (
+        <Resultado>
+          Su capital + interés será de{" "}
+          <strong>
+            $
+            {interesFinal.toLocaleString("es-AR", {
+              maximumFractionDigits: 2,
+            })}
+          </strong>
+        </Resultado>
+      )}
     </Formulario>
   );
 }

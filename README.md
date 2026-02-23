@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+## Calculadora de Interés Compuesto
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplicación web en React para simular el crecimiento de un capital a través del interés compuesto, permitiendo configurar depósito inicial, contribuciones anuales, cantidad de años e interés estimado.
 
-## Available Scripts
+### Características
 
-In the project directory, you can run:
+- **Cálculo de interés compuesto**: simula año por año el crecimiento del capital.
+- **Formulario validado**: usa `Formik` y `Yup` para validar que los datos sean correctos.
+- **Interfaz responsive**: estilos creados con `styled-components`.
+- **Formato local**: los resultados se muestran con formato numérico en español de Argentina.
 
-### `npm start`
+### Tecnologías utilizadas
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React** (Create React App)
+- **Formik** y **Yup** (manejo y validación de formularios)
+- **styled-components** (estilos en JS)
+- **SweetAlert2** (notificaciones, si se usan en otros componentes)
+- **Testing Library** (configurada por CRA)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Requisitos previos
 
-### `npm test`
+- **Node.js** (versión recomendada 18+)
+- **npm** o **yarn**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Instalación
 
-### `npm run build`
+1. Clonar el repositorio:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+git clone <URL_DEL_REPOSITORIO>
+cd calculadora-interes-compuesto
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Instalar dependencias:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm install
+# o
+yarn
+```
 
-### `npm run eject`
+### Ejecución en desarrollo
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm start
+# o
+yarn start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+La aplicación se abrirá en `http://localhost:3000`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Build para producción
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm run build
+# o
+yarn build
+```
 
-## Learn More
+Esto genera la versión optimizada en la carpeta `build/`.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Cómo usar la calculadora
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. **Depósito Inicial**: capital con el que comenzás la inversión.
+2. **Contribución Anual**: monto que vas a aportar cada año.
+3. **Años**: cantidad de años que mantendrás la inversión.
+4. **Interés Estimado (%)**: tasa de interés anual esperada.
+5. Presioná el botón **“Calcular”**.
 
-### Code Splitting
+La app mostrará el valor final de tu capital (capital inicial + contribuciones + interés generado) formateado en pesos argentinos.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Lógica de cálculo (resumen)
 
-### Analyzing the Bundle Size
+En cada año:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Se suma la contribución anual al capital actual.
+- Se aplica el interés estimado sobre el nuevo capital.
 
-### Making a Progressive Web App
+Este proceso se repite por la cantidad de años indicada y el resultado se redondea a dos decimales.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Scripts disponibles
 
-### Advanced Configuration
+- **`npm start`**: inicia el servidor de desarrollo.
+- **`npm test`**: ejecuta los tests.
+- **`npm run build`**: genera el build de producción.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Licencia
 
-### Deployment
+Este proyecto se distribuye con fines educativos y personales. Podés adaptarlo y reutilizarlo según tus necesidades.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
